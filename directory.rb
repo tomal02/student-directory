@@ -24,6 +24,15 @@ def input_students
   end
 end
 
+def load_file
+  file = File.open("students.csv", "r")
+  file.readLines do |line|
+    name, cohort = line.split(",")
+    students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
 def save_students
   file = File.open("students.csv", "w")
 
@@ -47,6 +56,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list of students to students.csv"
+  puts "4. Load the list of students from students.csv"
   puts "9. Exit" # 9 because we want room to add more items
 end
 
@@ -70,6 +80,8 @@ def process(selection)
     show_students
   when "3"
     save_students
+  when "4"
+    load_file
   when "9"
     exit # terminates program
   else
