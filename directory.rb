@@ -23,8 +23,8 @@ def print_header
 end
 # method that goes through every element and prints the hashes correctly
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  students.each_with_index do |student, i|
+    puts "#{i}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 # method that prints the footer, which contains the student count
