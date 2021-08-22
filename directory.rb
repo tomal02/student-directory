@@ -8,11 +8,11 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # gets the name from the user
-  name = gets.chomp
+  name = STDIN.gets.chomp
   # whilst name is not empty, repeat this code
   while !name.empty? do
     puts "Please input their cohort"
-    cohort = gets.chomp
+    cohort = STDIN.gets.chomp
     if !cohort.empty?
       @students << {name: name, cohort: cohort}
     else
@@ -20,15 +20,27 @@ def input_students
     end
     puts "Now we have #{@students.count} student(s)."
     # gets another name from the user
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
 end
 
-def load_file
-  file = File.open("students.csv", "r")
-  file.readLines do |line|
+def try_load_file
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exist?(filename)
+    load_file(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} does not exist."
+    exit
+  end
+end
+
+def load_file(filename = "students.csv")
+  file = File.open(filename, "r")
+  file.readlines.each do |line|
     name, cohort = line.split(",")
-    students << {name: name, cohort: cohort.to_sym}
+    @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
 end
@@ -47,7 +59,7 @@ end
 def interactive_menu
   loop do # infinite loop until user exits program
     print_menu
-    selection = gets.chomp
+    selection = STDIN.gets.chomp
     process(selection)
   end
 end
@@ -106,4 +118,5 @@ def print_footer
   puts ""
 end
 # calls the interactive_menu method
+try_load_file
 interactive_menu
