@@ -124,6 +124,6 @@ def print_footer
   puts "Overall we have #{@students.count} great student(s)"
   puts ""
 end
-# calls the interactive_menu method
+
 try_load_file
 interactive_menu
